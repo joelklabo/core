@@ -7,13 +7,13 @@
                     <div class="text">
                         <app-expandable-text [text]="item.value" [isAddress]="true" />
                     </div>
-                    @if (isAddressClipboardItem(item) && item.wallet) {
+                    @if (isWalletAddressClipboardItem(item) && item.wallet) {
                         <div class="details">
                             <div class="type">Wallet:</div>
                             <img [src]="'assets/wallet/icon/' + getIcon(item.wallet).icon" height="20" />
                             <div class="name">{{ item.wallet.name }}</div>
                         </div>
-                    } @else if (isAddressClipboardItem(item) && !item.wallet) {
+                    } @else if (isWalletAddressClipboardItem(item) && !item.wallet) {
                         <div class="secondary">No wallet found.</div>
                     } @else if (isPaymentClipboardItem(item)) {
                         <div class="details">
