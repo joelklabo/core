@@ -4,7 +4,7 @@ import { getIcon } from '../../shared/models/wallet.model';
 export class BaseClipboardComponent {
     getIcon = getIcon;
 
-    isAddressClipboardItem(item: ClipboardItem): item is AddressClipboardItem {
+    isWalletAddressClipboardItem(item: ClipboardItem): item is AddressClipboardItem {
         return 'address' in item && 'wallet' in item && 'derivationPath' in item;
     }
 
