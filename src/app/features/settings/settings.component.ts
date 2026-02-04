@@ -52,6 +52,10 @@ export class SettingsComponent {
             developerMode: new FormControl(settings.developerMode)
         });
 
+        this.formGroup.valueChanges.subscribe((settings) => {
+            this.settingsService.save(settings);
+        });
+
         this.formGroup.get('developerMode')?.valueChanges.subscribe(() => {
             this.clipboardService.rerunGetClipboardItem();
         });

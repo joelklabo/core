@@ -18,7 +18,7 @@ export class ServerService {
         return this.httpClient.get<PaymentClipboardItem[]>(`${this.baseUrl}/v2/payments/${encodeURIComponent(value)}`);
     }
 
-    private get baseUrl(): string {
+    get baseUrl(): string {
         if (environment.production == false) {
             return 'http://localhost:3000';
         }
