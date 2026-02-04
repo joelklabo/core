@@ -145,11 +145,17 @@ function createWindow() {
     }
 
     ipcMain.handle('show-notification', (_event, title, body) => {
-        new ENotification({
+        const notification = new ENotification({
             title,
             body,
             icon
-        }).show();
+        });
+
+        notification.on('click', () => {
+            mainWindow?.show();
+        });
+
+        notification.show();
     });
 
     ipcMain.handle('verify-address', (_event, wallets, address) => {
