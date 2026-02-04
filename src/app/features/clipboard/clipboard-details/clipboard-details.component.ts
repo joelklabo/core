@@ -29,14 +29,43 @@ export class ClipboardDetailsComponent extends BaseClipboardComponent {
 
     onVerify(): void {
         (async () => {
-            var result = await this.queryPayments(this.clipboardItem?.value ?? "")
+            const value = this.clipboardItem?.value;
+
+            if (!value) {
+                return;
+            }
+
+            const result = await this.queryPayments(value);
 
             if (result) {
                 this.clipboardItemChange.emit(result as PaymentClipboardItem);
-            } else {
-                this.toastrService.error(`Payment not found.`);
+                return;
             }
+
+            this.showPaymentNotFoundToast(value);
         })();
+    }
+
+    private showPaymentNotFoundToast(value: string): void {
+        this.toastrService.error(
+            `For more info on why this payment was not found click <a href="#" class="payment-link">here</a>.`,
+            'Payment not found',
+            {
+                enableHtml: true,
+                tapToDismiss: false
+            }
+        );
+
+        setTimeout(() => {
+            const link = document.querySelector('.toast-error .payment-link');
+            if (link) {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const url = `${this.serverService.baseUrl}/v2/verify/${encodeURIComponent(value)}`;
+                    window.electron.openUrl(url);
+                });
+            }
+        }, 100);
     }
 
     private async queryPayments(value: string): Promise<PaymentClipboardItem | null> {
